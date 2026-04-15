@@ -33,6 +33,10 @@ const sell = ({params}) => {
     const {ticker} = React.use(params)
   return (
     <main className='w-256 flex items-center self-center py-30'>
+        <CiMenuBurger  className="absolute text-4xl top-4 left-4 z-50 cursor-pointer" onClick={handleClick}/>
+        <BurgerMenu visible={sidebarVisible}>
+
+        </BurgerMenu>
         <FieldGroup>
         <Field>
             <FieldLabel htmlFor="fieldgroup-name">Ticker</FieldLabel>

@@ -19,7 +19,7 @@ import {
 type PurchaseProps = 
 {
     params:{
-        ticker: string
+        id: string
     }
     
 }
@@ -30,7 +30,7 @@ const Purchase = ({params}) => {
         console.log("Clicked");
         setSidebarVisible(!sidebarVisible);
     }
-    const {ticker} = React.use(params)
+    const {id} = React.use(params)
   return (
     <main className='w-256 flex items-center self-center py-30'>
         <CiMenuBurger  className="absolute text-4xl top-4 left-4 z-50 cursor-pointer" onClick={handleClick}/>
@@ -39,10 +39,10 @@ const Purchase = ({params}) => {
         </BurgerMenu>
         <FieldGroup>
         <Field>
-            <FieldLabel htmlFor="fieldgroup-name">Ticker</FieldLabel>
-            <Input disabled id="fieldgroup-name" className='placeholder-red' placeholder={ticker} />
+            <FieldLabel htmlFor="fieldgroup-name">id</FieldLabel>
+            <Input disabled id="fieldgroup-name" className='placeholder-red' placeholder={id} />
             <FieldDescription>
-                Please ensure this is the ticker corolating to who you want to buy
+                Please ensure this is the id corolating to who you want to buy
             </FieldDescription>
         </Field>
         <Field>
@@ -52,7 +52,7 @@ const Purchase = ({params}) => {
             placeholder="4"
             />
             <FieldDescription>
-            How many {ticker}&apos;s do you want to buy
+            How many {id}&apos;s do you want to buy
             </FieldDescription>
         </Field>
         <Field>

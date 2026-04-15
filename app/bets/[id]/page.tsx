@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import * as React from 'react'
 import BurgerMenu from '@/components/BurgerMenu'
 import HeroSection from '@/components/HeroSection'
 import { useState } from "react";
@@ -8,52 +8,61 @@ import FrontPageMarquee from '@/components/FrontPageMarquee';
 import ChartSection from '@/components/ChartSection';
 import Chart from '@/components/Chart';
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import Link from "next/link"
 
-const chart = () => {
+type ProfileProps = 
+{
+    params:{
+        id: string
+    }
+    
+}
+
+const Profile = ({params}) => {
     const [sidebarVisible,setSidebarVisible] = useState(false);
         function handleClick(){
         console.log("Clicked");
         setSidebarVisible(!sidebarVisible);
     }
-    var test = 'micks'
+    const {id} = React.use(params)
   return (
-    <main className='h-screen overflow-y-scroll snap-y snap-mandatory bg-black'>
+    <div className='w-screen h-screen flex flex-col items-center self-center justify-center'>
         <CiMenuBurger  className="absolute text-4xl top-4 left-4 z-50 cursor-pointer" onClick={handleClick}/>
         <BurgerMenu visible={sidebarVisible}>
 
         </BurgerMenu>
-        <section>
-            <Chart ticker='RCK - Rick Grimes'>
-
-            </Chart>
-        </section>
         <div>
-            <p>
-                Historical High: 30
-            </p>
-            <p>
-                Historical Low: 20
-            </p>
-        </div>
-        <div>
-            <Link href={`/purchase/${test}`}>
+            <h1>
+                Lorem Impsum (Description)
+            </h1>
+            <h2>
+                Multiplier : 3x
+            </h2>
+            <Link href={`/purchase/bets/1?=Over`}>
                     <Button>
-                        Purchase
+                        Over
                     </Button>
             </Link>
-
-        </div>
-        <div>
-            <Link href={`/sell/${test}`}>
-                <Button>
-                    Sell
-                </Button>
+            <Link href={`/purchase/bets/1?=Under`}>
+                    <Button>
+                        Under
+                    </Button>
             </Link>
+            <h4>
+                Status
+            </h4>
 
         </div>
-    </main>
+
+
+    </div>
   )
 }
 
-export default chart
+export default Profile
