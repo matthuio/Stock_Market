@@ -10,7 +10,16 @@ import Chart from '@/components/Chart';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-const chart = () => {
+type ChartProps = 
+{
+    params:{
+        uuid: string
+    }
+    
+}
+
+const chart = ({params}) => {
+    const {uuid} = React.use(params)
     const [sidebarVisible,setSidebarVisible] = useState(false);
         function handleClick(){
         console.log("Clicked");
@@ -24,7 +33,7 @@ const chart = () => {
 
         </BurgerMenu>
         <section>
-            <Chart ticker='RCK - Rick Grimes'>
+            <Chart uuid={uuid}>
 
             </Chart>
         </section>

@@ -7,7 +7,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-
 const admin = () => {
   return (
     <div className="px-6 py-10">

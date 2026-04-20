@@ -20,6 +20,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
+import { fetchUserUsername } from '@/Models/UserModel';
+
 
 type ProfileProps = 
 {
@@ -35,7 +37,9 @@ const Profile = ({params}) => {
         console.log("Clicked");
         setSidebarVisible(!sidebarVisible);
     }
+    const [username,setUsername] = useState <any[]>([])
     const {name} = React.use(params)
+
   return (
             <div className='w-full h-screen flex items-center self-center py-30'>
                 <CiMenuBurger  className="absolute text-4xl top-4 left-4 z-50 cursor-pointer" onClick={handleClick}/>

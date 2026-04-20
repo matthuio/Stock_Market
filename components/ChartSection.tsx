@@ -1,21 +1,48 @@
+"use client"
 import React from 'react'
+import { useEffect,useState } from 'react'
 import Chart from '@/components/Chart'
 import List from '@/components/List'
 import ClickableList from '@/components/ClickableList'
-import {users} from "@/data/userMoney"
+import { fetchStocks } from '@/Models/StockModel'
+import { fetchUsers } from '@/Models/UserModel'
 
 const ChartSection = () => {
+  const [stocks,setStocks] = useState<any[]>([])
+  const [users,setUsers] = useState<any[]>([])
+
+  useEffect(()=>
+  {
+    const run = async ()=>
+    {   
+      const data = await fetchStocks()
+      setStocks(data)
+      const userData = await fetchUsers()
+      setUsers(userData)
+      console.log(users)
+      console.log(stocks)
+    }
+    run()
+  }
+    ,[]
+  )
   return (
     <main className='py-30'>
-        <Chart ticker = "RCK - Rick Grimes">
+      {stocks && stocks.length != 0 && (
+        <Chart uuid = {stocks[0].uuid}>
 
         </Chart>
+      )}
+
         <div className='flex'>
           <List lists={users}>
           </List>
-          <ClickableList lists={users}>
+          {stocks && stocks.length != 0 && (
+          <ClickableList lists={stocks}>
 
           </ClickableList>
+          )
+          }
         </div>
         
 

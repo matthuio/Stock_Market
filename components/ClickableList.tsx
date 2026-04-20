@@ -26,8 +26,10 @@ export default function List({lists }: ListObject) {
     }
     return () => observer.disconnect();
     }, []);
+    console.log(lists)
     return(
         <div className="ml-6" ref={ref}>
+          
             <ul className="list-disc ml-4">
             {lists?.map((list, index) => (
                 <li
@@ -39,8 +41,8 @@ export default function List({lists }: ListObject) {
                     transitionDelay: `${index * 120}ms`,
                 }}
                 >
-                <Link href={`/chart/${list.name}`}>
-                    {list.name}
+                <Link href={`/chart/${list.uuid}`}>
+                    {list.ticker}
                 </Link>
                 </li>
             ))}
