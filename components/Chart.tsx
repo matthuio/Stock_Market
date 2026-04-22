@@ -14,10 +14,10 @@ import { fetchStockHistory,fetchStockSpecific } from "@/Models/StockModel";
 
  type ChartProps =
  {
-  uuid:string
+  ticker:string
  }
 
-export default function Chart({uuid}:ChartProps) {
+export default function Chart({ticker}:ChartProps) {
   const [stockHistory,setStockHistory] = useState <any[]>([])
   const [stockName,setStockName] = useState <string>('')
   useEffect(()=>
@@ -26,9 +26,9 @@ export default function Chart({uuid}:ChartProps) {
     const run = async()=>
     {
 
-      var name = await fetchStockSpecific(uuid)
+      var name = await fetchStockSpecific(ticker)
       name = name[0]
-      var data  = await fetchStockHistory(uuid)
+      var data  = await fetchStockHistory(ticker)
       console.log(name)
       const proxy = data.map((holder) => ({
         price: holder[1],

@@ -18,11 +18,11 @@ export async function fetchStocks() {
 
 
 }
-export async function fetchStockHistory(uuid:string) {
+export async function fetchStockHistory(ticker:string) {
     const { data, error } = await supabase
     .from("stocks")
     .select("*")
-    .eq("uuid",uuid)
+    .eq("ticker",ticker)
     if (error)
     {
         console.log(error)
@@ -35,17 +35,16 @@ export async function fetchStockHistory(uuid:string) {
     else{
         var arr = data[0].history
         arr = JSON.parse(arr)
-
         return arr
     }
 
 
 }
-export async function fetchStockSpecific(uuid:string) {
+export async function fetchStockSpecific(ticker:string) {
     const { data, error } = await supabase
     .from("stocks")
     .select("*")
-    .eq("uuid",uuid)
+    .eq("ticker",ticker)
     if (error)
     {
         throw new Error(error.messsage)

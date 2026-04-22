@@ -41,7 +41,7 @@ export default function List({lists }: ListObject) {
                     transitionDelay: `${index * 120}ms`,
                 }}
                 >
-                <Link href={`/chart/${list.uuid}`}>
+                <Link href={`/chart/${list.ticker}`}>
                     {list.ticker}
                 </Link>
                 </li>

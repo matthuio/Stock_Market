@@ -13,13 +13,13 @@ import Link from "next/link"
 type ChartProps = 
 {
     params:{
-        uuid: string
+        ticker: string
     }
     
 }
 
 const chart = ({params}) => {
-    const {uuid} = React.use(params)
+    const {ticker} = React.use(params)
     const [sidebarVisible,setSidebarVisible] = useState(false);
         function handleClick(){
         console.log("Clicked");
@@ -33,7 +33,7 @@ const chart = ({params}) => {
 
         </BurgerMenu>
         <section>
-            <Chart uuid={uuid}>
+            <Chart ticker={ticker}>
 
             </Chart>
         </section>
@@ -46,7 +46,7 @@ const chart = ({params}) => {
             </p>
         </div>
         <div>
-            <Link href={`/purchase/${test}`}>
+            <Link href={`/purchase/${ticker}`}>
                     <Button>
                         Purchase
                     </Button>
@@ -54,7 +54,7 @@ const chart = ({params}) => {
 
         </div>
         <div>
-            <Link href={`/sell/${test}`}>
+            <Link href={`/sell/${ticker}`}>
                 <Button>
                     Sell
                 </Button>
