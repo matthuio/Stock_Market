@@ -6,7 +6,7 @@ export async function fetchStocks() {
     .select("*")
     if (error)
     {
-        throw new Error(error.messsage)
+        throw new Error(error.message)
     }
     if (!data || data.length == 0)
     {
@@ -26,7 +26,7 @@ export async function fetchStockHistory(ticker:string) {
     if (error)
     {
         console.log(error)
-        throw new Error(error.messsage)
+        throw new Error(error.message)
     }
     if (!data || data.length == 0)
     {
@@ -47,7 +47,7 @@ export async function fetchStockSpecific(ticker:string) {
     .eq("ticker",ticker)
     if (error)
     {
-        throw new Error(error.messsage)
+        throw new Error(error.message)
     }
     if (!data || data.length == 0)
     {
@@ -64,7 +64,7 @@ export async function deleteStock(uuid:string) {
     .eq("uuid",uuid)
     if (error)
     {
-        throw new Error(error.messsage)
+        throw new Error(error.message)
     }
     if (!data || data.length == 0)
     {
@@ -83,7 +83,7 @@ export async function updateStockHistory(price:number,episode:number,uuid:string
     .eq("uuid",uuid)
     if (error)
     {
-        throw new Error(error.messsage)
+        throw new Error(error.message)
     }
     if (!data || data.length == 0)
     {
@@ -102,6 +102,13 @@ export async function createStock(ticker:string,desc:string,name:string) {
             })
     if (error)
     {
-        throw new Error(error.messsage)
+        throw new Error(error.message)
     }
+}
+export async function updateStocks(stocks: { uuid: string, history: any[] }[]) {
+  const { error } = await supabase
+    .from("stocks")
+    .upsert(stocks, { onConflict: "uuid" })
+  if (error) throw new Error(error.message)
+  return "200"
 }

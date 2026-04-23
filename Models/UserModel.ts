@@ -187,9 +187,10 @@ export async function updateUserTradeHistory(username:string,ticker:string,quant
     }
 
 }
-export async function updateUserBets(username:string,betId:string,option:number,mult:number) {
+export async function updateUserBets(username:string,desc:string,betId:string,option:string,mult:number) {
     var test = await fetchUserBets(username)
     var obj = {
+        desc:desc,
         betId : betId,
         option: option,
         mult : mult
@@ -197,7 +198,7 @@ export async function updateUserBets(username:string,betId:string,option:number,
     test.push(obj)
     const { data, error } = await supabase
     .from("users")
-    .update("stock",test)
+    .update("bets",test)
     .eq("username",username)
     if (error)
     {
@@ -249,7 +250,7 @@ export async function loginUser(username:string,password:string) {
     }
     if(data.length != 0 && data.length == 1)
     {
-        return "200"
+        return data
     }
 
 }
