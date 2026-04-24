@@ -29,15 +29,16 @@ import { fetchUserBalance, fetchUserStocks, fetchUserUsername, processUserSellOr
 import { useRouter } from "next/navigation";
 
 
-type PurchaseProps = 
-{
-    params:{
-        ticker: string
-    }
-    
-}
+type PurchaseProps = {
+    params: Promise<{
+        ticker: string;
+    }>;
+};
 
-const sell = ({params}) => {
+
+
+
+const sell = ({params}: PurchaseProps) => {
     const router = useRouter();
     const [reset,setReset] = useState(false)
     const [sidebarVisible,setSidebarVisible] = useState(false);
@@ -45,6 +46,7 @@ const sell = ({params}) => {
     const [price,setPrice] = useState(0)
     const [totalQuant,setTotalQuant] = useState(0)
     const [stockPrice,setStockPrice] = useState(0)
+    const [username,setUsername] = useState("")
     const [reducedList,setReducedList] = useState <any[]>([])
     const [newData,setnewData] = useState <any[]>([])
     const [visible,setVisible] = useState(false)
@@ -59,7 +61,7 @@ const sell = ({params}) => {
         setQuant(value)
         setPrice(Number(value) * stockPrice)
     }
-    const handleSubmit = async ()=>
+    const handleSubmit = async (e:any)=>
     {
         console.log(typeof(Number(quant)))
         console.log(Number(quant))
@@ -96,12 +98,14 @@ const sell = ({params}) => {
             }
             }
             console.log(finalList)
-            setnewData(newData.push(finalList))
-            const cleanStock = structuredClone(newData[0]);
-            var balance = await fetchUserBalance("admin")
-            var payment =await updateUserBalance("admin",Number(price),Number(balance),true)
-            var stock = await processUserSellOrder("admin",cleanStock)
-            var trade = await updateUserTradeHistory("admin",ticker,Number(quant),Number(stockPrice),false)
+            const updatedData = [...newData, finalList].flat()
+            setnewData(updatedData)
+            console.log(updatedData)
+            const cleanStock = structuredClone(updatedData[0]);
+            var balance = await fetchUserBalance(username)
+            var payment = await updateUserBalance(username, Number(price), Number(balance), true)
+            var stock = await processUserSellOrder(username, updatedData)
+            var trade = await updateUserTradeHistory(username, ticker, Number(quant), Number(stockPrice), false)
 
             if ( stock == 200 && trade  == 200 && payment == 200)
             {
@@ -123,8 +127,16 @@ const sell = ({params}) => {
         {
             const run = async()=>
             {
+                    const res = await fetch("/api/login", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+                })
+                const x = await res.json()
+                console.log(x)
+                var name = x.user.username
+                setUsername(name)
                 var stockData =await fetchStockHistory(ticker)
-                var data =await fetchUserStocks('admin')
+                var data =await fetchUserStocks(name)
                 var proxyList= []
                 var totalQuant = 0
                 const newDataList = data.filter((list) => {

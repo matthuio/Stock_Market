@@ -25,21 +25,20 @@ type ProfileProps =
     
 }
 
-const Profile = ({params}) => {
+const Profile = ({params}:ProfileProps) => {
     const [sidebarVisible,setSidebarVisible] = useState(false);
     const [bets,setBets] = useState <any[]>([])
         function handleClick(){
         console.log("Clicked");
         setSidebarVisible(!sidebarVisible);
     }
-    const {name} = React.use(params)
     useEffect(()=>
     {
         const run = async () =>
         {
             var data = await fetchBets()
             console.log(data)
-            setBets(data)
+            setBets(Array.isArray(data) ? data : [data])
             console.log(bets)
         }
         run()

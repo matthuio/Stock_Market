@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const user = await loginUser(username, password)
   console.log(user)
 
-  if (Number(user) == 404) {
+  if (Number(user) == 404 || !user || user.length === 0) {
     return NextResponse.json({ error: "Invalid login" }, { status: 401 })
   }
 

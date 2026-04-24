@@ -12,13 +12,13 @@ import Link from "next/link"
 
 type ChartProps = 
 {
-    params:{
+    params: Promise<{
         ticker: string
-    }
+    }>
     
 }
 
-const chart = ({params}) => {
+const chart = ({params}:ChartProps) => {
     const {ticker} = React.use(params)
     const [sidebarVisible,setSidebarVisible] = useState(false);
         function handleClick(){

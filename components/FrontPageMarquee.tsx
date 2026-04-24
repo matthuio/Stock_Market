@@ -17,12 +17,12 @@ const FrontPageMarquee = () => {
     const run = async () =>
     {
       var proxy = []
-        var stockData = await fetchStocks()
-        stockData.map((arr,index)=>
+        var stockData = await fetchStocks();
+        (stockData as any).map((arr,index)=>
         {
           proxy.push(
             {
-              name:`${arr.ticker} : ${arr.history[arr.history.length-1][1]}`
+              name:`${(arr as any).ticker} : ${(arr as any).history[(arr as any).history.length-1][1]}`
             }
           )
         }

@@ -65,7 +65,7 @@ export async function deleteStock(uuid:string) {
     {
         throw new Error(error.message)
     }
-    if (!data || data.length == 0)
+    if (!data || (data as any[]).length == 0)
     {
         return `Data is empty:${data}`
     }
@@ -84,7 +84,7 @@ export async function updateStockHistory(price:number,episode:number,uuid:string
     {
         throw new Error(error.message)
     }
-    if (!data || data.length == 0)
+    if (!data || (data as any[]).length == 0)
     {
         return `Data is empty:${data}`
     }

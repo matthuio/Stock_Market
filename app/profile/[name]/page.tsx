@@ -25,20 +25,20 @@ import { data } from "react-router-dom";
 import Link from "next/link";
 
 type ProfileProps = {
-  params: {
+  params: Promise<{
     name: string;
-  };
+  }>;
 };
 
-const Profile = ({ params }) => {
+const Profile = ({ params }: ProfileProps) => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   function handleClick() {
     console.log("Clicked");
     setSidebarVisible(!sidebarVisible);
   }
 
-  const [username, setUsername] = useState<any[]>([]);
-  const [user, setUser] = useState<any[]>([]);
+  const [username, setUsername] = useState<string>("");
+  const [user, setUser] = useState<any>([]);
   const [value, setVal] = useState(0);
   const [stock, setStock] = useState<any[]>([]);
   const [bets, setBets] = useState<any[]>([]);
@@ -48,11 +48,11 @@ const Profile = ({ params }) => {
     const run = async () => {
       const data = await fetchUserUsername(name);
       console.log(data);
-      setUser(data[0]);
-      setUsername(data.name);
-      console.log(data.stock);
-      var stockP = data[0].stock;
-      console.log(data.stockP);
+      const fetchedUser = Array.isArray(data) ? data[0] : data;
+      setUser(fetchedUser);
+      setUsername(fetchedUser?.name ?? "");
+      console.log(fetchedUser?.stock);
+      var stockP = fetchedUser?.stock ?? [];
       setStock(stockP);
       setStockHistory(data[0].tradeHistory);
       setBets(data[0].bets);
@@ -64,7 +64,7 @@ const Profile = ({ params }) => {
       var val = 0;
       const arr =
         user.stock != null && user.stock.length() > 0 ? user.stock : [];
-      if (arr != []) {
+      if (arr.length > 0) {
         arr.map((list) => (val += list[3]));
       }
       setVal(val);

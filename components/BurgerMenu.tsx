@@ -11,7 +11,7 @@ type burgerMenuProps= {
 export default function BurgerMenu({visible} : burgerMenuProps) {
     const router = useRouter()
     const [username,setUsername] = useState("")
-    const handleLogout =async () =>
+    const handleLogout =async (e) =>
     { 
         
         logout()

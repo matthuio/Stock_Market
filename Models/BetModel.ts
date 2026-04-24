@@ -66,7 +66,7 @@ export async function deleteBet(uuid:string) {
 
 
 }
-export async function createBet(desc?:string,options:string[],mult:number[]) {
+export async function createBet(desc:string,options:string[],mult:number[]) {
     const { data, error } = await supabase
     .from("bets")
     .insert({

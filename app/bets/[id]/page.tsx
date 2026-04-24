@@ -19,27 +19,28 @@ import { fetchBet } from '@/Models/BetModel';
 
 type ProfileProps = 
 {
-    params:{
+    params: Promise<{
         id: string
-    }
+    }>
     
 }
 
-const Profile = ({params}) => {
+const Profile = ({params}:ProfileProps) => {
     const [bets,setBets] = useState<any[]>([])
     const [sidebarVisible,setSidebarVisible] = useState(false);
         function handleClick(){
         console.log("Clicked");
         setSidebarVisible(!sidebarVisible);
     }
-    const {id} = React.use(params)
+    const unwrappedParams = React.use(params)
+    const { id } = unwrappedParams
     useEffect(()=>
     {
         const run = async () =>
             {
                 var data =await fetchBet(id)
                 console.log(data)
-                setBets(data)
+                setBets(Array.isArray(data) ? data : [data])
                 console.log(bets[0])
             } 
         run()

@@ -217,7 +217,7 @@ export async function updateUserBalance(username:string,price:number,balance:num
         var newBal= balance+price
     }
     else{
-        var nweBal=balance-price
+        var newBal=balance-price
     }
     console.log(newBal,username)
     const { data, error } = await supabase

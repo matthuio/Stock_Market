@@ -28,16 +28,14 @@ import { toast } from "sonner"
 import { fetchBet } from '@/Models/BetModel';
 import { fetchUserBalance, updateUserBalance, updateUserBets } from '@/Models/UserModel';
 
-type PurchaseProps = 
-{
-    params:{
-        id: string
-        
-    }
-    
-}
+type PurchaseProps = {
+    params: Promise<{
+        id: string;
+    }>;
+};
 
-const Purchase = ({params}) => {
+
+const Purchase = ({params}: PurchaseProps) => {
     const searchParams = useSearchParams()
     const option = searchParams.get('option')
     const mult = searchParams.get('mult')
@@ -53,7 +51,7 @@ const Purchase = ({params}) => {
         setSidebarVisible(!sidebarVisible);
     }
     const {id} = React.use(params)
-        const handleSubmit = async ()=>
+        const handleSubmit = async (e:any)=>
     {
         console.log(typeof(Number(quant)))
         console.log(Number(quant))
@@ -72,7 +70,7 @@ const Purchase = ({params}) => {
         {
             toast('Processing Payment')
             setVisible(true)
-            var handleBet =await updateUserBets("admin",bets[0].desc,bet[0].uuid,option,mult)
+            var handleBet =await updateUserBets("admin",bets[0].desc,bets[0].uuid,option,Number(mult))
             var handleBalance = await updateUserBalance("admin",price,balance,false)
             if (handleBet == 200)
             {
@@ -93,7 +91,7 @@ const Purchase = ({params}) => {
             {
                 var data =await fetchBet(id)
                 var userData = await fetchUserBalance("admin")
-                setBets(data)
+                setBets(Array.isArray(data) ? data : [data])
                 setBalance(userData)
             } 
         run()

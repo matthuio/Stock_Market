@@ -29,7 +29,7 @@ const Login = () => {
 
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
-  const handleSubmit = async ()=>
+  const handleSubmit = async (e:any)=>
   {
     console.log("Checking")
       const res=await fetch("/api/login", {

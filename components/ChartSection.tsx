@@ -16,9 +16,9 @@ const ChartSection = () => {
     const run = async ()=>
     {   
       const data = await fetchStocks()
-      setStocks(data)
+      setStocks(Array.isArray(data) ? data : [data])
       const userData = await fetchUsers()
-      setUsers(userData)
+      setUsers(Array.isArray(userData) ? userData : [userData])
       console.log(users)
       console.log(stocks)
     }

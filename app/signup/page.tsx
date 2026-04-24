@@ -30,7 +30,7 @@ const Signup = () => {
 
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
-  const handleSubmit = async ()=>
+  const handleSubmit = async (e)=>
   {
    var create = await createUser(username,password)
    if(create != 200)

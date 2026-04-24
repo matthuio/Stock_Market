@@ -28,20 +28,21 @@ import { toast } from "sonner"
 import { fetchUserBalance, fetchUserUsername, updateUserBalance, updateUserStock, updateUserTradeHistory } from '@/Models/UserModel';
 
 
-type PurchaseProps = 
-{
-    params:{
-        ticker: string
-    }
-    
-}
+type PurchaseProps = {
+    params: Promise<{
+        ticker: string;
+    }>;
+};
 
-const Purchase = ({params}) => {
+
+
+const Purchase = ({params}: PurchaseProps) => {
     const [sidebarVisible,setSidebarVisible] = useState(false);
     const [quant,setQuant] = useState(0)
     const [price,setPrice] = useState(0)
     const [stockPrice,setStockPrice] = useState(0)
     const [balance,setBalance] = useState(0)
+    const [username,setUsername] = useState("")
     const [visible,setVisible] = useState(false)
         function handleClick(){
         console.log("Clicked");
@@ -54,7 +55,7 @@ const Purchase = ({params}) => {
         setQuant(value)
         setPrice(Number(value) * stockPrice)
     }
-    const handleSubmit = async ()=>
+    const handleSubmit = async (e:any)=>
     {
         console.log(typeof(Number(quant)))
         console.log(Number(quant))
@@ -72,9 +73,9 @@ const Purchase = ({params}) => {
         else{
             toast('Processing Payment')
             setVisible(true)
-            var payment =await updateUserBalance("admin",Number(price),Number(balance),false)
-            var stock = await updateUserStock("admin",ticker,Number(quant),Number(stockPrice))
-            var trade = await updateUserTradeHistory("admin",ticker,Number(quant),Number(stockPrice),true)
+            var payment =await updateUserBalance(username,Number(price),balance,false)
+            var stock = await updateUserStock(username,ticker,Number(quant),Number(stockPrice))
+            var trade = await updateUserTradeHistory(username,ticker,Number(quant),Number(stockPrice),true)
             if (payment  == 200 && stock == 200 && trade  == 200)
             {
                 toast('Payment Complete')
@@ -92,12 +93,20 @@ const Purchase = ({params}) => {
     {
         const run = async()=>
         {
+            const res = await fetch("/api/login", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+                })
+                const x = await res.json()
+                console.log(x)
+            var name = x.user.username
             var data =await fetchStockHistory(ticker)
-            var userData = await fetchUserBalance("admin")
+            var userData = await fetchUserBalance(name)
             console.log(userData)
             data = data[data.length-1][1]
             setStockPrice(data)
             setBalance(userData)
+            setUsername(name)
         }
         run()
     },[]

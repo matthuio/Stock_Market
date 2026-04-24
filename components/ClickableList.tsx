@@ -43,8 +43,8 @@ export default function List({ lists }: ListObject) {
                 transitionDelay: `${index * 120}ms`,
               }}
             >
-              <Link href={`/chart/${list.ticker}`}>
-                {list.ticker} : ${list.history[list.history.length - 1][1]}
+              <Link href={`/chart/${(list as any).ticker}`}>
+                {(list as any).ticker} : ${ (list as any).history[(list as any).history.length - 1][1] }
               </Link>
             </li>
           ))}

@@ -36,24 +36,20 @@ const admin = () => {
   const [showAddStock, setShowAddStock] = useState(false)
   const [newStock, setNewStock] = useState({ description: "", ticker: "", episode: "", price: "",name:"" })
 
-  const handleChangeStatus = async (e, uuid: string) => {
+  const handleChangeStatus = async (e:any, uuid: string) => {
     await updateBetStatus(uuid);
   };
-  const handleDelete = async (e, uuid: string) => {
+  const handleDelete = async (e:any, uuid: string) => {
     await deleteBet(uuid);
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     var opt = JSON.parse(options);
     var mul = JSON.parse(mult);
     if (desc.length != 0 && opt.length != 0 && mult.length != 0) {
       var res = await createBet(desc, opt, mul);
+      toast("Probably good go check")
     } else {
       toast("Error");
-    }
-    if (Number(res) != 200) {
-      toast("Error");
-    } else {
-      toast("Good job!");
     }
   };
   const handleAddStockSubmit = async () => {
@@ -63,7 +59,7 @@ const admin = () => {
   setNewStock({ description: "", ticker: "", episode: "", price: "",name:"" })
   
 }
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e:any) => {
     const updated = stocks.map((stock) => {
       const lastEntry = stock.history[stock.history.length - 1];
       const newEntry = [
@@ -99,8 +95,8 @@ const admin = () => {
       const stockData = await fetchStocks();
       console.log(data);
       console.log(stockData);
-      setBets(data);
-      setStocks(stockData);
+      setBets(Array.isArray(data) ? data : []);
+      setStocks(Array.isArray(stockData) ? stockData : []);
       console.log(stocks);
       console.log(bets);
     };
@@ -194,7 +190,7 @@ const admin = () => {
             </HoverCardTrigger>
             <HoverCardContent className="flex flex-col gap-0.5">
               <div className="font-semibold">{arr.desc}</div>
-              {arr.options.map((list, index) => (
+              {arr.options.map((list:any, index:any) => (
                 <div className="mt-1 text-xs text-muted-foreground">
                   {list} X{arr.mult[index]}
                 </div>

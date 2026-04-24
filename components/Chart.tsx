@@ -49,8 +49,8 @@ export default function Chart({ticker}:ChartProps) {
     })
       setMaximum(max)
       setStockHistory(proxy)
-      setStockName(name.name)
-      setStockDescription(name.desc)
+      setStockName((name as any)?.name ?? "")
+      setStockDescription((name as any)?.desc ?? "")
     }
     run()
   },[]
