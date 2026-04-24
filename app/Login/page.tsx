@@ -69,7 +69,7 @@ const Login = () => {
           Enter your Username below to login to your account
         </CardDescription>
         <CardAction>
-          <Button variant="link">Sign Up</Button>
+          <Button onClick={(e)=>router.push("/signup")} variant="link">Sign Up</Button>
         </CardAction>
       </CardHeader>
       <CardContent>
