@@ -2,13 +2,16 @@ import { NextRequest, NextResponse } from "next/server"
 
 export function middleware(req: NextRequest) {
   const session = req.cookies.get("session")
-  const isLoginPage = req.nextUrl.pathname.startsWith("/Login")
+  const isPublicRoute = 
+    req.nextUrl.pathname.startsWith("/Login") ||
+    req.nextUrl.pathname.startsWith("/signup") ||
+    req.nextUrl.pathname.startsWith("/auth")
 
-  if (!session && !isLoginPage) {
+  if (!session && !isPublicRoute) {
     return NextResponse.redirect(new URL("/Login", req.url))
   }
 
-  if (session && isLoginPage) {
+  if (session && isPublicRoute) {
     return NextResponse.redirect(new URL("/", req.url))
   }
 

@@ -254,3 +254,15 @@ export async function loginUser(username:string,password:string) {
     }
 
 }
+export async function createUser(username:string,password:string) {
+    const { data, error } = await supabase
+    .from("users")
+    .insert({username:username,password:password})
+    if (error)
+    {
+        throw new Error(error.message)
+    }else{
+        return 200
+    }
+
+}

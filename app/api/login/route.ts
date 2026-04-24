@@ -44,11 +44,8 @@ export async function GET(req: NextRequest) {
   const sessionData = JSON.parse(session.value)
   return NextResponse.json({ user: sessionData })
 }
-export async function PATCH(req: NextRequest) {
-  const { value } = await req.json()
+export async function logout() {
+  "use server"
   const cookieStore = await cookies()
-  cookieStore.set("market-open", String(value), {
-    maxAge: 2147483647
-  })
-  return NextResponse.json({ success: true })
+  cookieStore.delete("session")
 }

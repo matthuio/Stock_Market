@@ -29,12 +29,12 @@ const ChartSection = () => {
   return (
     <main className='py-30'>
       {stocks && stocks.length != 0 && (
-        <Chart uuid = {stocks[0].uuid}>
+        <Chart ticker = {'RCK'}>
 
         </Chart>
       )}
 
-        <div className='flex'>
+        <div className='flex py-30'>
           <List lists={users}>
           </List>
           {stocks && stocks.length != 0 && (

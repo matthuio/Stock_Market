@@ -23,9 +23,9 @@ import {
   fetchBets,
   updateBetStatus,
 } from "@/Models/BetModel";
-import { fetchStocks, updateStocks } from "@/Models/StockModel";
+import { createStock, fetchStocks, updateStocks } from "@/Models/StockModel";
 import { toast, Toaster } from "sonner";
-import { TOGGLE } from "../api/login/route";
+import { toggleMarket } from "@/Models/SettingModel";
 const admin = () => {
   const [bets, setBets] = useState<any[]>([]);
   const [stocks, setStocks] = useState<any[]>([]);
@@ -33,6 +33,9 @@ const admin = () => {
   const [options, setOptions] = useState("");
   const [desc, setDesc] = useState("");
   const [marketOpen, setMarketOpen] = useState(false);
+  const [showAddStock, setShowAddStock] = useState(false)
+  const [newStock, setNewStock] = useState({ description: "", ticker: "", episode: "", price: "",name:"" })
+
   const handleChangeStatus = async (e, uuid: string) => {
     await updateBetStatus(uuid);
   };
@@ -53,6 +56,13 @@ const admin = () => {
       toast("Good job!");
     }
   };
+  const handleAddStockSubmit = async () => {
+  console.log(newStock)
+  setShowAddStock(false)
+  createStock(newStock.ticker,newStock.description,newStock.name,Number(newStock.episode),Number(newStock.price))
+  setNewStock({ description: "", ticker: "", episode: "", price: "",name:"" })
+  
+}
   const handleUpdate = async (e) => {
     const updated = stocks.map((stock) => {
       const lastEntry = stock.history[stock.history.length - 1];
@@ -74,14 +84,13 @@ const admin = () => {
       return updated;
     });
   };
+  const handleAddition = async (e) => {
+  setShowAddStock(true)
+}
   const handleToggle = async () => {
     const newValue = !marketOpen;
     setMarketOpen(newValue);
-    const res = await fetch("/api/login", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ value:newValue })
-    })
+    await toggleMarket()
   };
 
   useEffect(() => {
@@ -167,6 +176,9 @@ const admin = () => {
         <Button type="submit" onClick={(e) => handleUpdate(e)}>
           Update Stocks
         </Button>
+        <Button type="submit" onClick={(e) => handleAddition(e)}>
+          Add Stock
+        </Button>
       </FieldGroup>
       {bets?.map((arr, index) => (
         <div>
@@ -192,7 +204,61 @@ const admin = () => {
           <Button onClick={(e) => handleDelete(e, arr.uuid)}>Delete</Button>
         </div>
       ))}
+      {showAddStock && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-background rounded-lg p-6 w-full max-w-md flex flex-col gap-4 shadow-xl">
+      <h2 className="text-lg font-semibold">Add Stock</h2>
+      <Field>
+        <FieldLabel>Description</FieldLabel>
+        <Input
+          placeholder="Enter description"
+          value={newStock.description}
+          onChange={(e) => setNewStock(prev => ({ ...prev, description: e.target.value }))}
+        />
+      </Field>
+      <Field>
+        <FieldLabel>Ticker</FieldLabel>
+        <Input
+          placeholder="e.g. AAPL"
+          value={newStock.ticker}
+          onChange={(e) => setNewStock(prev => ({ ...prev, ticker: e.target.value }))}
+        />
+      </Field>
+      <Field>
+        <FieldLabel>Episode</FieldLabel>
+        <Input
+          placeholder="Enter episode"
+          value={newStock.episode}
+          onChange={(e) => setNewStock(prev => ({ ...prev, episode: e.target.value }))}
+        />
+      </Field>
+      <Field>
+        <FieldLabel>Price</FieldLabel>
+        <Input
+          placeholder="Enter price"
+          type="number"
+          value={newStock.price}
+          onChange={(e) => setNewStock(prev => ({ ...prev, price: e.target.value }))}
+        />
+      </Field>
+      <Field>
+        <FieldLabel>Name</FieldLabel>
+        <Input
+          placeholder="Enter Name"
+          type="text"
+          value={newStock.name}
+          onChange={(e) => setNewStock(prev => ({ ...prev, name: e.target.value }))}
+        />
+      </Field>
+      <Field orientation="horizontal">
+        <Button variant="outline" onClick={() => setShowAddStock(false)}>Cancel</Button>
+        <Button onClick={handleAddStockSubmit}>Add Stock</Button>
+      </Field>
     </div>
+  </div>
+)}
+    </div>
+    
   );
 };
 

@@ -34,7 +34,6 @@ export async function fetchStockHistory(ticker:string) {
     }
     else{
         var arr = data[0].history
-        arr = JSON.parse(arr)
         return arr
     }
 
@@ -93,12 +92,13 @@ export async function updateStockHistory(price:number,episode:number,uuid:string
         return data
     }
 }
-export async function createStock(ticker:string,desc:string,name:string) {
+export async function createStock(ticker:string,desc:string,name:string,episode:number,price:number) {
     const { data, error } = await supabase
     .from("stocks")
     .insert({ ticker:ticker,
                 desc:desc,
-                name:name
+                name:name,
+                history:[[episode,price]]
             })
     if (error)
     {

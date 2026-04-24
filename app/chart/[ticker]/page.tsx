@@ -25,7 +25,6 @@ const chart = ({params}) => {
         console.log("Clicked");
         setSidebarVisible(!sidebarVisible);
     }
-    var test = 'micks'
   return (
     <main className='h-screen overflow-y-scroll snap-y snap-mandatory bg-black'>
         <CiMenuBurger  className="absolute text-4xl top-4 left-4 z-50 cursor-pointer" onClick={handleClick}/>
@@ -37,30 +36,6 @@ const chart = ({params}) => {
 
             </Chart>
         </section>
-        <div>
-            <p>
-                Historical High: 30
-            </p>
-            <p>
-                Historical Low: 20
-            </p>
-        </div>
-        <div>
-            <Link href={`/purchase/${ticker}`}>
-                    <Button>
-                        Purchase
-                    </Button>
-            </Link>
-
-        </div>
-        <div>
-            <Link href={`/sell/${ticker}`}>
-                <Button>
-                    Sell
-                </Button>
-            </Link>
-
-        </div>
     </main>
   )
 }

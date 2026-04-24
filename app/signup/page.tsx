@@ -23,16 +23,21 @@ import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { getServerSideProps } from "@/Controllers/UserController"
+import { createUser } from "@/Models/UserModel"
 
-const Login = () => {
+const Signup = () => {
   const router = useRouter();
 
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
   const handleSubmit = async ()=>
   {
-    console.log("Checking")
-      const res=await fetch("/api/login", {
+   var create = await createUser(username,password)
+   if(create != 200)
+   {
+    toast("Username Already taken probably")
+   }else{
+        const res=await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -43,34 +48,19 @@ const Login = () => {
       toast("Username or Password Invalid")
       return
     }else{
-      router.push("/");
+      router.push("/FrontPage");
     }
+   }
   }
-  useEffect(()=>
-  {
-    const run = async () =>
-    {
-    const res = await fetch("/api/login", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    })
-    const data = await res.json()
-    console.log(data)
-    }
-    run()
-  },[])
     return(
     <div className="flex justify-center items-center h-screen">
         <Toaster position='top-center'/>
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
+        <CardTitle>Create an account</CardTitle>
         <CardDescription>
-          Enter your Username below to login to your account
+          Enter your Username below to create your account
         </CardDescription>
-        <CardAction>
-          <Button variant="link">Sign Up</Button>
-        </CardAction>
       </CardHeader>
       <CardContent>
         <form>
@@ -104,7 +94,7 @@ const Login = () => {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" className="w-full" onClick={(e)=>handleSubmit(e)}>
-          Login
+          Signup
         </Button>
       </CardFooter>
     </Card>
@@ -113,4 +103,4 @@ const Login = () => {
     
 }
 
-export default Login
+export default Signup

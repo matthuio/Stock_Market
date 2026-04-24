@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Marquee } from "@/components/shadcn-space/animations/marquee";
+import { fetchStocks } from '@/Models/StockModel';
 
 type TickerList = {
   image?: string;
@@ -8,26 +9,35 @@ type TickerList = {
 };
 
 const FrontPageMarquee = () => {
+  const [data,setData] = useState<any[]>([])
   const TickerList: TickerList[] = [
-      {
-        name: "RCK:100",
-      },
-      {
-        name: "RCK:200",
-      },
-      {
-        name: "RCK:300",
-      },
-      {
-        name: "RCK:400",
-      },
-      {
-        name: "RCK:500",
-      },
   ]
+  useEffect(()=>
+  {
+    const run = async () =>
+    {
+      var proxy = []
+        var stockData = await fetchStocks()
+        stockData.map((arr,index)=>
+        {
+          proxy.push(
+            {
+              name:`${arr.ticker} : ${arr.history[arr.history.length-1][1]}`
+            }
+          )
+        }
+        )
+        setData(proxy)
+    }
+    run()
+
+  },[])
+  {
+
+  }
   return (
       <Marquee className="[--duration:20s] p-0 flex self-center align-self-center" pauseOnHover>
-        {TickerList.map((ticker, index) => (
+        {data.map((ticker, index) => (
           <div key={index}>
             {ticker.name}
           </div>
