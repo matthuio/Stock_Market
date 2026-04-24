@@ -48,7 +48,7 @@ const Signup = () => {
       toast("Username or Password Invalid")
       return
     }else{
-      router.push("/FrontPage");
+      router.push("/");
     }
    }
   }
