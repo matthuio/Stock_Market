@@ -53,6 +53,7 @@ const Profile = ({ params }: ProfileProps) => {
       setUsername(fetchedUser?.name ?? "");
       console.log(fetchedUser?.stock);
       var stockP = fetchedUser?.stock ?? [];
+      stockP.sort((a, b) => a[0].localeCompare(b[0]));
       setStock(stockP);
       setStockHistory(data[0].tradeHistory);
       setBets(data[0].bets);
